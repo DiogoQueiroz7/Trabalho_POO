@@ -37,3 +37,9 @@ class Veiculo:
     def capacidade_carga(self, value):
         self.__capacidade_carga = value
 
+
+    def calcular_custo(self, distancia):
+        return distancia * self.__capacidade_carga * 0.1
+
+    def __str__(self):
+        return f"Veículo ID: {self.__id}, Placa: {self.__placa}, Modelo: {self.__modelo}, Capacidade: {self.__capacidade_carga}kg"
