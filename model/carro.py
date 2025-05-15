@@ -1,8 +1,11 @@
 from model.veiculo import Veiculo
 
 class Carro(Veiculo):
+    '''
+    aqui vemos a classe carro herdar atributos da sua classe pai "Veiculos" usando o super()
+    '''
     def __init__(self, id, placa, modelo, capacidade_carga, adequacao_urbana, agilidade):
-        super().__init__(id, placa, modelo, capacidade_carga)
+        super().__init__(id, placa, modelo, capacidade_carga) 
         self.__adequacao_urbana = adequacao_urbana
         self.__agilidade = agilidade
 
