@@ -116,8 +116,12 @@ def init():
             CREATE TABLE IF NOT EXISTS forma_pagamento (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 tipo TEXT NOT NULL,
-                valor TEXT NOT NULL,
-                data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                chave_pix TEXT,
+                ultimos_digitos_cartao TEXT,
+                nome_titular_cartao TEXT,
+                data_validade_cartao TEXT,
+                codigo_barras_boleto TEXT
             );
 
             CREATE TABLE IF NOT EXISTS pagamentos (
