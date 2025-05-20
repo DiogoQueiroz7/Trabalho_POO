@@ -29,3 +29,14 @@ class Veiculo:
     @property
     def cliente_id(self):
         return self._cliente_id
+    
+    '''
+    pelo o que eu pesquesei um veiculo comum geralmente
+    anda 10 minutos por km, carros e vans 
+    '''
+    
+    def calcular_tempo(self, distancia_km):
+        return distancia_km * 10
+
+    def calcular_custo(self, distancia_km):
+        return distancia_km * 2.5
