@@ -143,4 +143,11 @@ def init():
                 FOREIGN KEY (cliente_id) REFERENCES clientes (id),
                 FOREIGN KEY (transportadora_id) REFERENCES transportadoras (id)
             );
+                        
+            CREATE TABLE IF NOT EXISTS sessions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                token TEXT NOT NULL,
+                user_id INTEGER NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users (id)
+            );
         """)

@@ -12,7 +12,7 @@ def cadastrar_cliente():
     endereco = input("Endereço: ")
 
     controller = ClienteController()
-    cliente = Cliente(None, nome, email, senha, cpf, endereco, None)
+    cliente = Cliente(nome, email, senha, cpf, endereco, None)
     controller.salvar(cliente)
     print("Cliente cadastrado com sucesso!")
 
