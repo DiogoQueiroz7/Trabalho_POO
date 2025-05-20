@@ -1,6 +1,11 @@
 from datetime import datetime
 
 class Pagamento:
+    """
+    Representa um registro de pagamento associado a uma encomenda.
+    Esta classe gerencia os detalhes de um pagamento, incluindo seu valor,
+    status, data, e os IDs da encomenda e da forma de pagamento relacionadas.
+    """
 
     STATUS_PENDENTE = "Pendente"
     STATUS_CONFIRMADO = "Confirmado"
@@ -8,44 +13,54 @@ class Pagamento:
     STATUS_FALHOU = "Falhou"
 
     def __init__(self,
-                 id_pagamento: int,
                  valor: float,
                  encomenda_id: int,
-                 data_pagamento: datetime = None,
-                 metodo_pagamento: str = "Não Especificado"):
+                 forma_pagamento_id: int, 
+                 id_pagamento: int | None = None, 
+                 data_pagamento: datetime | None = None,
+                 status: str | None = None): 
 
-        if not isinstance(id_pagamento, int) or id_pagamento <= 0:
-            print(f"Erro de Inicialização: ID do pagamento inválido ('{id_pagamento}'). Atribuindo ID padrão 0.")
-            self._id_pagamento: int = 0
-        else:
-            self._id_pagamento: int = id_pagamento
+        self._id_pagamento: int | None = id_pagamento 
 
-        self._valor: float = 0.0  
-        self.valor = valor  
+        self._valor: float = 0.0
+        self.valor = valor 
 
         if data_pagamento is None:
             self._data_pagamento: datetime = datetime.now()
         elif isinstance(data_pagamento, datetime):
             self._data_pagamento: datetime = data_pagamento
         else:
-            print(f"Erro de Inicialização: data_pagamento inválida ('{data_pagamento}'). Usando data e hora atuais.")
+            print(f"Alerta de Inicialização: data_pagamento inválida ('{data_pagamento}'). Usando data e hora atuais.")
             self._data_pagamento: datetime = datetime.now()
 
-        self._status_pagamento: str = Pagamento.STATUS_PENDENTE
-        self._metodo_pagamento: str = metodo_pagamento
+        self._status_pagamento: str = status if status else Pagamento.STATUS_PENDENTE
 
         if not isinstance(encomenda_id, int) or encomenda_id <= 0:
-            print(f"Erro de Inicialização: ID da encomenda inválido ('{encomenda_id}'). Atribuindo ID padrão 0.")
-            self._encomenda_id: int = 0
+            print(f"Alerta de Inicialização: ID da encomenda inválido ('{encomenda_id}').")
+            self._encomenda_id: int = 0 
         else:
             self._encomenda_id: int = encomenda_id
 
-    @property
-    def id(self) -> int:
-        return self._id_pagamento
+        if not isinstance(forma_pagamento_id, int) or forma_pagamento_id <= 0:
+            print(f"Alerta de Inicialização: ID da forma de pagamento inválido ('{forma_pagamento_id}').")
+            self._forma_pagamento_id: int = 0 
+        else:
+            self._forma_pagamento_id: int = forma_pagamento_id
 
     @property
-    def valor(self) -> float:
+    def id_pagamento(self) -> int | None: #Define o id do pagamento 
+        return self._id_pagamento
+
+    @id_pagamento.setter
+    def id_pagamento(self, novo_id: int) -> None: 
+        if isinstance(novo_id, int) and novo_id > 0:
+            self._id_pagamento = novo_id
+        else:
+            print(f"Erro ao definir ID do pagamento: ID inválido ('{novo_id}').")
+
+
+    @property
+    def valor(self) -> float: #define o valor do pagamento 
         return self._valor
 
     @valor.setter
@@ -59,65 +74,101 @@ class Pagamento:
         self._valor = float(novo_valor)
 
     @property
-    def data_pagamento(self) -> datetime:
+    def data_pagamento(self) -> datetime: #data e hora do pagaemtno 
         return self._data_pagamento
 
     @property
-    def status_pagamento(self) -> str:
+    def status_pagamento(self) -> str: #qual o status atual do pamento? pendente, confirmado...
         return self._status_pagamento
 
     @property
     def encomenda_id(self) -> int:
         return self._encomenda_id
-
+    
     @property
-    def metodo_pagamento(self) -> str:
-        return self._metodo_pagamento
+    def forma_pagamento_id(self) -> int: 
+        return self._forma_pagamento_id
 
-    def _verificar_ids_validos(self) -> bool:
+    
+    @forma_pagamento_id.setter
+    def forma_pagamento_id(self, nova_forma_id: int) -> None:
+        if isinstance(nova_forma_id, int) and nova_forma_id > 0:
+            self._forma_pagamento_id = nova_forma_id
+        else:
+            print(f"Erro ao definir ID da forma de pagamento: ID inválido ('{nova_forma_id}').")
 
-        if self._id_pagamento == 0 or self._encomenda_id == 0:
-            print(f"Atenção: Pagamento com ID {self.id} ou Encomenda ID {self.encomenda_id} possui dados de ID padrão (0), "
-                  "indicando possível erro na inicialização. A operação pode não ser confiável.")
+
+    def _ids_realmente_validos_para_operacao(self) -> bool:
+        """
+        Verifica internamente se os IDs essenciais (pagamento, encomenda, forma de pagamento)
+        são válidos para realizar operações de mudança de status.
+        """
+        
+        if not self._id_pagamento or self._id_pagamento <= 0:
+            print(f"Atenção: Pagamento ID {self.id_pagamento} não está persistido ou possui ID inválido.")
+            return False
+        if not self._encomenda_id or self._encomenda_id <= 0:
+            print(f"Atenção: Encomenda ID {self.encomenda_id} inválido para o pagamento ID {self.id_pagamento}.")
+            return False
+        if not self._forma_pagamento_id or self._forma_pagamento_id <= 0:
+            print(f"Atenção: Forma de Pagamento ID {self.forma_pagamento_id} inválido para o pagamento ID {self.id_pagamento}.")
             return False
         return True
 
-    def confirmar_pagamento(self) -> None:
-
-        self._verificar_ids_validos() 
-
+    def confirmar_pagamento(self) -> bool: 
+        """
+        Muda o status do pagamento para 'Confirmado'.
+        Só pode ser confirmado se o status atual for 'Pendente' e os IDs
+        relevantes (pagamento, encomenda, forma de pagamento) forem válidos."""
+        if not self._ids_realmente_validos_para_operacao():
+            return False
         if self._status_pagamento == Pagamento.STATUS_PENDENTE:
             self._status_pagamento = Pagamento.STATUS_CONFIRMADO
-            print(f"Pagamento ID {self.id} confirmado.")
+            print(f"Pagamento ID {self.id_pagamento} confirmado.")
+            return True
         elif self._status_pagamento == Pagamento.STATUS_CONFIRMADO:
-            print(f"Pagamento ID {self.id} já está confirmado.")
+            print(f"Pagamento ID {self.id_pagamento} já está confirmado.")
+            return True 
         else:
-            print(f"Não é possível confirmar o pagamento ID {self.id} com status '{self._status_pagamento}'.")
+            print(f"Não é possível confirmar o pagamento ID {self.id_pagamento} com status '{self._status_pagamento}'.")
+            return False
 
-    def cancelar_pagamento(self) -> None:
-
-        self._verificar_ids_validos()
-
+    def cancelar_pagamento(self) -> bool:
+        """
+        muda o status para cancelado e só pode ser cancelado se o status atual 
+        for "pendente" ou "confirmado" e os ids relevantes forem válidos
+        """
+        if not self._ids_realmente_validos_para_operacao():
+            return False
         if self._status_pagamento in [Pagamento.STATUS_PENDENTE, Pagamento.STATUS_CONFIRMADO]:
             self._status_pagamento = Pagamento.STATUS_CANCELADO
-            print(f"Pagamento ID {self.id} cancelado.")
+            print(f"Pagamento ID {self.id_pagamento} cancelado.")
+            return True
         elif self._status_pagamento == Pagamento.STATUS_CANCELADO:
-            print(f"Pagamento ID {self.id} já está cancelado.")
+            print(f"Pagamento ID {self.id_pagamento} já está cancelado.")
+            return True
         else:
-            print(f"Não é possível cancelar o pagamento ID {self.id} com status '{self._status_pagamento}'.")
+            print(f"Não é possível cancelar o pagamento ID {self.id_pagamento} com status '{self._status_pagamento}'.")
+            return False
 
-    def falhar_pagamento(self) -> None:
-
-        self._verificar_ids_validos()
-
+    def falhar_pagamento(self) -> bool:
+        """
+        Muda o status do pagamento para 'Falhou'.
+        Só pode ser marcado como falho se o status atual for 'Pendente'
+        e os IDs relevantes forem válidos."""
+        
+        if not self._ids_realmente_validos_para_operacao():
+            return False
         if self._status_pagamento == Pagamento.STATUS_PENDENTE:
             self._status_pagamento = Pagamento.STATUS_FALHOU
-            print(f"Pagamento ID {self.id} marcado como falho.")
+            print(f"Pagamento ID {self.id_pagamento} marcado como falho.")
+            return True
         else:
-            print(f"Não é possível marcar como falho o pagamento ID {self.id} com status '{self._status_pagamento}'.")
+            print(f"Não é possível marcar como falho o pagamento ID {self.id_pagamento} com status '{self._status_pagamento}'.")
+            return False
 
     def __str__(self) -> str:
-        return (f"Pagamento(ID: {self.id}, Valor: R${self.valor:.2f}, "
+        return (f"Pagamento(ID: {self.id_pagamento}, Valor: R${self.valor:.2f}, "
                 f"Data: {self.data_pagamento.strftime('%Y-%m-%d %H:%M:%S')}, "
                 f"Status: {self.status_pagamento}, Encomenda ID: {self.encomenda_id}, "
-                f"Método: {self.metodo_pagamento})")
+                f"Forma Pagamento ID: {self.forma_pagamento_id})")
