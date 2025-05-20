@@ -22,3 +22,16 @@ class MovimentacaoView:
         historico = self.controller.listar_por_veiculo(veiculo_id)
         for m in historico:
             print(f"Data/Hora: {m['data_hora']} | Localização: {m['localizacao']} | Status: {m['status']}")
+
+if __name__ == "__main__":
+    view = MovimentacaoView()
+    while True:
+        opcao = input("\n==== Menu Movimentacao ====\n1. registrar movimentacao\n2. listar por veiculo\n0. Sair\nEscolha: ")
+        if opcao == "1":
+            view.registrar()
+        elif opcao == "2":
+            view.listar_por_veiculo()
+        elif opcao == "0":
+            break
+        else:
+            print("Opção inválida!")
