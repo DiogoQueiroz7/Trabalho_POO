@@ -35,7 +35,7 @@ class VeiculoView:
             print(f"Placa: {v['placa']} - Cor: {v['cor']} - Tipo ID: {v['tipo_veiculo_id']} - Cliente ID: {v['cliente_id']}")
 
 
-## === menu principal (exemplo de uso) ===
+## === menu principal ===
 if __name__ == "__main__":
     view = VeiculoView()
     while True:

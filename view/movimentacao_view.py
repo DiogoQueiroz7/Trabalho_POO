@@ -1,0 +1,24 @@
+from model.movimentacao import Movimentacao
+from controller.movimentacao_controller import MovimentacaoController
+from datetime import datetime
+
+class MovimentacaoView:
+    def __init__(self):
+        self.controller = MovimentacaoController()
+
+    def registrar(self):
+        veiculo_id = int(input("ID do Veículo: "))
+        localizacao = input("Localização: ")
+        status = input("Status: ")
+        cliente_id = int(input("ID do Cliente: "))
+        transportadora_id = int(input("ID da Transportadora: "))
+        datahora = datetime.now()
+        mov = Movimentacao(None, veiculo_id, datahora, localizacao, status, cliente_id, transportadora_id)
+        self.controller.registrar(mov)
+        print("Movimentação registrada com sucesso!")
+
+    def listar_por_veiculo(self):
+        veiculo_id = int(input("ID do Veículo: "))
+        historico = self.controller.listar_por_veiculo(veiculo_id)
+        for m in historico:
+            print(f"Data/Hora: {m['data_hora']} | Localização: {m['localizacao']} | Status: {m['status']}")
