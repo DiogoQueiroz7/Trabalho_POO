@@ -31,8 +31,7 @@ class Veiculo:
         return self._cliente_id
     
     '''
-    pelo o que eu pesquesei um veiculo comum geralmente
-    anda 10 minutos por km, carros e vans 
+    calculo base 
     '''
     
     def calcular_tempo(self, distancia_km):
