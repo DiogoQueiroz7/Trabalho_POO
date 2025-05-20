@@ -52,6 +52,26 @@ def init():
                 nome TEXT NOT NULL,
                 data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
+                        
+            CREATE TABLE IF NOT EXISTS moto (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                adequecaoUrbana TEXT NOT NULL,
+                agilidade INT NOT NULL,
+                cilindrada INT NOT NULL,
+                capacidadeCarga FLOAT NOT NULL,
+                tipo_veiculo_id INTEGER NOT NULL,
+                FOREIGN KEY (tipo_veiculo_id) REFERENCES tipos_veiculos (id)
+            );
+                        
+            CREATE TABLE IF NOT EXISTS carro (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                adequecaoUrbana INTEGER NOT NULL,
+                agilidade INT NOT NULL,
+                modelo TEXT NOT NULL,
+                capacidadeCarga FLOAT NOT NULL,
+                tipo_veiculo_id INTEGER NOT NULL,
+                FOREIGN KEY (tipo_veiculo_id) REFERENCES tipos_veiculos (id)
+            );
 
             CREATE TABLE IF NOT EXISTS veiculos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
