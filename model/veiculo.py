@@ -1,39 +1,31 @@
 class Veiculo:
-    def __init__(self, id, placa, modelo, capacidade_carga):
-        self.__id = id
-        self.__placa = placa
-        self.__modelo = modelo
-        self.__capacidade_carga = capacidade_carga
+    def __init__(self, id, placa, cor, tipo_veiculo_id, cliente_id):
+        self._id = id
+        self._placa = placa
+        self._cor = cor
+        self._tipo_veiculo_id = tipo_veiculo_id
+        self._cliente_id = cliente_id
 
     @property
     def id(self):
-        return self.__id
+        return self._id
 
     @id.setter
-    def id(self, value):
-        self.__id = value
+    def id(self, valor):
+        self._id = valor
 
     @property
     def placa(self):
-        return self.__placa
-
-    @placa.setter
-    def placa(self, value):
-        self.__placa = value
+        return self._placa
 
     @property
-    def modelo(self):
-        return self.__modelo
-
-    @modelo.setter
-    def modelo(self, value):
-        self.__modelo = value
+    def cor(self):
+        return self._cor
 
     @property
-    def capacidade_carga(self):
-        return self.__capacidade_carga
+    def tipo_veiculo_id(self):
+        return self._tipo_veiculo_id
 
-    @capacidade_carga.setter
-    def capacidade_carga(self, value):
-        self.__capacidade_carga = value
-
+    @property
+    def cliente_id(self):
+        return self._cliente_id
