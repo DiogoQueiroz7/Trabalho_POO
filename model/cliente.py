@@ -1,8 +1,8 @@
 from model.usuario import Usuario
 
 class Cliente(Usuario):
-    def __init__(self, id_usuario, nome, email, senha, cpf, endereco, user_id):
-        super().__init__(id_usuario, nome, email, senha)
+    def __init__(self, nome, email, senha, cpf, endereco, user_id):
+        super().__init__(nome, email, senha)
         self._cpf = cpf
         self._endereco = endereco
         self._user_id = user_id

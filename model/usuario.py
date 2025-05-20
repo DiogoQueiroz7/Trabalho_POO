@@ -1,12 +1,8 @@
 class Usuario:
-    def __init__(self, id_usuario, nome, email, senha):
-        self.__id_usuario = id_usuario
+    def __init__(self, nome, email, senha):
         self.__nome = nome
         self.__email = email
         self.__senha = senha
-
-    @property
-    def id_usuario(self): return self.__id_usuario
 
     @property
     def nome(self): return self.__nome
@@ -24,4 +20,4 @@ class Usuario:
     def senha(self, value): self.__senha = value
 
     def __str__(self):
-        return f"Usuario(id_usuario={self.id_usuario}, nome={self.nome}, email={self.email})"
+        return f"Usuario(nome={self.nome}, email={self.email})"
