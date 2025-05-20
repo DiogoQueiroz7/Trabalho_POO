@@ -43,7 +43,6 @@ class AdministradorRepository:
             administradores = []
             for row in rows:
                 administrador = Administrador(
-                    row["id"],
                     row["nome"],
                     row["email"],
                     row["senha"]
