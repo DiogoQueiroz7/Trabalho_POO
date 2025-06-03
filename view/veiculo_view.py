@@ -34,6 +34,38 @@ class VeiculoView:
         for v in veiculos:
             print(f"Placa: {v['placa']} - Cor: {v['cor']} - Tipo ID: {v['tipo_veiculo_id']} - Cliente ID: {v['cliente_id']}")
 
+    def estimar_entrega(self):
+        while True:
+            print("\n=== Estimar Entrega ===")
+            print("1 - Moto")
+            print("2 - Carro")
+            print("3 - Outros")
+            print("4 - Sair")
+            opcao = input("Escolha o tipo de veículo: ")
+
+            if opcao == "4":
+                break
+
+            try:
+                distancia = float(input("informe a distância em km: "))
+            except ValueError:
+                print("distancia inválida")
+                continue
+
+            if opcao == "1":
+                tempo = distancia * 7
+                custo = distancia * 1.5
+                print(f"Moto: Tempo estimado: {tempo:.2f} minutos | Custo: R$ {custo:.2f}")
+            elif opcao == "2":
+                tempo = distancia * 10
+                custo = distancia * 2.5
+                print(f"Carro: Tempo estimado: {tempo:.2f} minutos | Custo: R$ {custo:.2f}")
+            elif opcao == "3":
+                tempo = distancia * 12
+                custo = distancia * 3.0
+                print(f"Outros: Tempo estimado: {tempo:.2f} minutos | Custo: R$ {custo:.2f}")
+            else:
+                print("Opção inválida!")
 
 ## === menu principal ===
 if __name__ == "__main__":
@@ -46,6 +78,8 @@ if __name__ == "__main__":
             view.cadastrar_moto()
         elif opcao == "3":
             view.listar()
+        elif opcao =="4":
+            view.estimar_entrega()
         elif opcao == "0":
             break
         else:

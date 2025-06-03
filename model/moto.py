@@ -35,8 +35,3 @@ class Moto(Veiculo):
         self.__cilindrada = value
 
 
-    def calcular_tempo(self, distancia_km):
-        return distancia_km * 7
-
-    def calcular_custo(self, distancia_km):
-        return distancia_km * 1.5

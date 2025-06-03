@@ -28,8 +28,4 @@ class Carro(Veiculo):
     '''pelo o que eu pesquesei um veiculo comum geralmente
     anda 10 minutos por km, carros gastam 2,50 por km (valor ficticio)'''
     
-    def calcular_tempo(self, distancia_km):
-        return distancia_km * 10
-
-    def calcular_custo(self, distancia_km):
-        return distancia_km * 2.5
+   
