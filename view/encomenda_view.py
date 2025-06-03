@@ -1,6 +1,5 @@
 from controller.encomenda_controller import EncomendaController
 from repository.transportadora_repository import TransportadoraRepository
-from functions.utils.arquivo import ArquivoUtils
 
 class EncomendaView:
     def __init__(self, encomenda_controller):
@@ -9,7 +8,7 @@ class EncomendaView:
     def display_encomendas(self):
         encomendas = self.encomenda_controller.get_all_encomendas()
         for encomenda in encomendas:
-            print(f"Descrição: {encomenda.descricao}, Peso: {encomenda.peso}, Volume: {encomenda.volume}, Cliente ID: {encomenda.cliente_id}, Transportadora ID: {encomenda.transportadora_id}")
+            print(f"Descrição: {encomenda["descricao"]}, Peso: {encomenda["peso"]}, Volume: {encomenda["volume"]}, Cliente ID: {encomenda["cliente_id"]}, Transportadora ID: {encomenda["transportadora_id"]}")
 
     def add_encomenda(self):
         descricao = input("Digite a descrição da encomenda: ")

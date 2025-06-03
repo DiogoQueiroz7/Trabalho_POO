@@ -25,7 +25,7 @@ class EncomendaRepository:
         cursor = self.db.cursor()
         cursor.execute("SELECT * FROM encomendas")
         rows = cursor.fetchall()
-        return [Encomenda(**row) for row in rows]
+        return rows
     
     def get_all_cliente(self, user_id):
         cursor = self.db.cursor()

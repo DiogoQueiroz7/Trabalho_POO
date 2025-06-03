@@ -8,8 +8,7 @@ class TransportadoraView:
     def display_transportadoras(self):
         transportadoras = self.transportadora_controller.get_all_transportadoras()
         for transportadora in transportadoras:
-            print(f"ID: {getattr(transportadora, 'id', 'N/A')}, Nome: {transportadora.razao_social}, CNPJ: {getattr(transportadora, 'cnpj', 'N/A')}, Endereço: {getattr(transportadora, 'endereco', 'N/A')}")
-
+            print(f"ID: {transportadora['id']}, Razão Social: {transportadora['razao_social']}, CNPJ: {transportadora['cnpj']}, Endereço: {transportadora['endereco']}")
     def add_transportadora(self):
         razao_social = input("Digite a razão social da transportadora: ")
         cnpj = input("Digite o CNPJ da transportadora: ")

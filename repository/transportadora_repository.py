@@ -11,16 +11,16 @@ class TransportadoraRepository:
             "cnpj": transportadora.cnpj,
             "endereco": transportadora.endereco
         }
-        cursor = self.db.cursor()  # cria um cursor novo para essa operação
+        cursor = self.db.cursor() 
         cursor.execute("""
             INSERT INTO transportadoras (razao_social, cnpj, endereco)
             VALUES (:razao_social, :cnpj, :endereco)
         """, transportadora_data)
-        self.db.commit()  # salva a transação
+        self.db.commit()
         return transportadora
 
     def get_all(self):
-        cursor = self.db.cursor()  # cria um cursor novo para a consulta
+        cursor = self.db.cursor() 
         cursor.execute("SELECT * FROM transportadoras")
         rows = cursor.fetchall()
-        return [Transportadora(**row) for row in rows]
+        return rows

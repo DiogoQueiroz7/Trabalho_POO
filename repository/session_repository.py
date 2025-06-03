@@ -22,7 +22,7 @@ class SessionRepository:
         session = cursor.fetchone()
 
         if not session:
-            letras = string.ascii_letters  # letras maiúsculas e minúsculas
+            letras = string.ascii_letters
             token = ''.join(random.choice(letras) for _ in range(15))
             cursor.execute("INSERT INTO sessions (user_id, token) VALUES (?, ?)", (user_id, token))
             self.db.commit()
