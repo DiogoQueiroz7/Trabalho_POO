@@ -27,16 +27,16 @@ class VeiculoRepository:
             cursor.execute("INSERT INTO tipos_veiculos (nome) VALUES (?)", (nome,))
             return cursor.lastrowid
 
-    def salvar_moto(self, veiculo_id, adequecao, agilidade, cilindrada, carga):
+    def salvar_moto(self, veiculo_id, adequacao_urbana, agilidade, cilindrada, capacidade_carga):
         with conn() as c:
             c.execute("""
-                INSERT INTO moto (adequecaoUrbana, agilidade, cilindrada, capacidadeCarga, tipo_veiculo_id)
+                INSERT INTO moto (adequacaoUrbana, agilidade, cilindrada, capacidadeCarga, tipo_veiculo_id)
                 VALUES (?, ?, ?, ?, ?)
-            """, (adequecao, agilidade, cilindrada, carga, veiculo_id))
+            """, (adequacao_urbana, agilidade, cilindrada, capacidade_carga, veiculo_id))
 
-    def salvar_carro(self, veiculo_id, adequecao, agilidade, modelo, carga):
+    def salvar_carro(self, veiculo_id, adequacao_urbana, agilidade, modelo, capacidade_carga):
         with conn() as c:
             c.execute("""
                 INSERT INTO carro (adequecaoUrbana, agilidade, modelo, capacidadeCarga, tipo_veiculo_id)
                 VALUES (?, ?, ?, ?, ?)
-            """, (adequecao, agilidade, modelo, carga, veiculo_id))
+            """, (adequacao_urbana, agilidade, modelo, capacidade_carga, veiculo_id))

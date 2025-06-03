@@ -1,40 +1,62 @@
-from model.veiculo import Veiculo
+# from model.veiculo import Veiculo
+from model.carro import Carro
+from model.moto import Moto
 from controller.veiculo_controller import VeiculoController
 
 class VeiculoView:
     def __init__(self):
         self.controller = VeiculoController()
-
+# CADASTRAR MOTO
+# ============================================================================================================
     def cadastrar_moto(self):
         placa = input("Placa: ")
         cor = input("Cor: ")
-        cliente_id = int(input("ID do Cliente: "))
+        try:
+            cliente_id = int(input("ID do Cliente: "))
+            agilidade = int(input("Agilidade: "))
+            cilindrada = int(input("Cilindrada: "))
+            capacidade_carga = float(input("Capacidade de Carga: "))
+        except ValueError:
+            print('digite apenas numero')
+            return
         adequecao = input("Adequação Urbana: ")
-        agilidade = int(input("Agilidade: "))
-        cilindrada = int(input("Cilindrada: "))
-        carga = float(input("Capacidade de Carga: "))
-        veiculo = Veiculo(None, placa, cor, None, cliente_id)
-        self.controller.cadastrar_moto(veiculo, adequecao, agilidade, cilindrada, carga)
-        print("Moto cadastrada com sucesso!")
+        moto = Moto(None, placa, cor, None, cliente_id, adequecao, agilidade,cilindrada,capacidade_carga)
+        self.controller.cadastrar_moto(moto)
+        print("Moto cadastrada com sucesso")
+
+# CADASTRAR CARRO
+# ============================================================================================================
 
     def cadastrar_carro(self):
         placa = input("Placa: ")
         cor = input("Cor: ")
-        cliente_id = int(input("ID do Cliente: "))
-        adequecao = int(input("Adequação Urbana (1/0): "))
-        agilidade = int(input("Agilidade: "))
+        try:
+            cliente_id = int(input("ID do Cliente: "))
+            adequecao = int(input("Adequação Urbana (1/0): "))
+            agilidade = int(input("Agilidade: "))
+            capacidade_carga = float(input("Capacidade de Carga: "))
+        except ValueError:
+            print("digite apenas numeros")
+            return
         modelo = input("Modelo: ")
-        carga = float(input("Capacidade de Carga: "))
-        veiculo = Veiculo(None, placa, cor, None, cliente_id)
-        self.controller.cadastrar_carro(veiculo, adequecao, agilidade, modelo, carga)
-        print("Carro cadastrado com sucesso!")
+        carro = Carro(None, placa, cor, None, cliente_id, adequecao, agilidade, modelo, capacidade_carga)
+        self.controller.cadastrar_carro(carro)
+        print("Carro cadastrado com sucesso")
 
+# LISTAR
+# ============================================================================================================
     def listar(self):
         veiculos = self.controller.listar()
         for v in veiculos:
-            print(f"Placa: {v['placa']} - Cor: {v['cor']} - Tipo ID: {v['tipo_veiculo_id']} - Cliente ID: {v['cliente_id']}")
+            print(f"Placa: {v['placa']}- Cor: {v['cor']}- Tipo ID: {v['tipo_veiculo_id']} - Cliente ID: {v['cliente_id']}")
 
+# ESTIMAR ENTREGA
+# ============================================================================================================
     def estimar_entrega(self):
+
+        '''pelo o que eu pesquesei um veiculo comum geralmente
+        anda 10 minutos por km, carros gastam 2,50 por km (valor ficticio)'''
+
         while True:
             print("\n=== Estimar Entrega ===")
             print("1 - Moto")
@@ -71,7 +93,7 @@ class VeiculoView:
 if __name__ == "__main__":
     view = VeiculoView()
     while True:
-        opcao = input("\n==== Menu Funcionário SpeedBox ====\n1. Cadastrar Carro\n2. Cadastrar Moto\n3. Listar Veículos\n0. Sair\nEscolha: ")
+        opcao = input("\n==== Menu Funcionário SpeedBox ====\n1. Cadastrar Carro\n2. Cadastrar Moto\n3. Listar Veículos\n4. Estimar Entrega\n0. Sair\nEscolha: ")
         if opcao == "1":
             view.cadastrar_carro()
         elif opcao == "2":
