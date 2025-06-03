@@ -30,7 +30,7 @@ def listar_clientes():
 
 def menu_logado():
     print("\n--- Menu Cliente Logado ---")
-    print("\n1 - Enviar uma encomenda \n2 - Ver minhas encomendas \n3 - Sair")
+    print("\n1 - Enviar uma encomenda \n2 - Ver minhas encomendas \n0 - Sair")
     opcao = input("Escolha: ")
 
     if opcao == "1":
