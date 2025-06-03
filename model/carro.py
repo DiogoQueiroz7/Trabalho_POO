@@ -4,32 +4,43 @@ class Carro(Veiculo):
     '''
     aqui vemos a classe carro herdar atributos da sua classe pai "Veiculos" usando o super()
     '''
-    def __init__(self, id, placa, modelo, capacidade_carga, adequacao_urbana, agilidade):
-        super().__init__(id, placa, modelo, capacidade_carga) 
-        self.__adequacao_urbana = adequacao_urbana
-        self.__agilidade = agilidade
+    def __init__(self, id, placa, cor, tipo_veiculo_id, cliente_id, adequacao_urbana, agilidade, modelo, capacidade_carga):
+        super().__init__(id, placa, cor, tipo_veiculo_id, cliente_id)
+        self._adequacao_urbana = adequacao_urbana
+        self._agilidade = agilidade
+        self._modelo = modelo
+        self._capacidade_carga = capacidade_carga
 
     @property
     def adequacao_urbana(self):
-        return self.__adequacao_urbana
+        return self._adequacao_urbana
 
     @adequacao_urbana.setter
     def adequacao_urbana(self, value):
-        self.__adequacao_urbana = value
+        self._adequacao_urbana = value
 
     @property
     def agilidade(self):
-        return self.__agilidade
+        return self._agilidade
 
     @agilidade.setter
     def agilidade(self, value):
-        self.__agilidade = value
-    
-    '''pelo o que eu pesquesei um veiculo comum geralmente
-    anda 10 minutos por km, carros gastam 2,50 por km (valor ficticio)'''
-    
-    def calcular_tempo(self, distancia_km):
-        return distancia_km * 10
+        self._agilidade = value
 
-    def calcular_custo(self, distancia_km):
-        return distancia_km * 2.5
+    @property
+    def modelo(self):
+        return self._modelo
+
+    @modelo.setter
+    def modelo(self, value):
+        self._modelo = value
+
+    @property
+    def capacidade_carga(self):
+        return self._capacidade_carga
+
+    @capacidade_carga.setter
+    def capacidade_carga(self, value):
+        self._capacidade_carga = value
+    
+   
