@@ -26,3 +26,18 @@ class EncomendaRepository:
         cursor.execute("SELECT * FROM encomendas")
         rows = cursor.fetchall()
         return [Encomenda(**row) for row in rows]
+    
+    def get_all_cliente(self, user_id):
+        cursor = self.db.cursor()
+        cursor.execute("""
+            SELECT encomendas.id, encomendas.descricao, encomendas.peso, encomendas.volume, 
+                transportadoras.razao_social AS transportadora 
+            FROM encomendas 
+            INNER JOIN clientes ON clientes.id = encomendas.cliente_id 
+            INNER JOIN users ON users.id = clientes.user_id 
+            LEFT JOIN transportadoras ON transportadoras.id = encomendas.transportadora_id 
+            WHERE users.id = ?
+        """, (user_id,))
+        rows = cursor.fetchall()
+        return rows
+

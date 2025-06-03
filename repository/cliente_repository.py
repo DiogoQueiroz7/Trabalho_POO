@@ -33,6 +33,28 @@ class ClienteRepository:
         
             c.commit()
 
+    def buscar_por_user_id(self, user_id):
+        with conn() as c:
+            cursor = c.cursor()
+            cursor.execute(
+                "SELECT clientes.id, clientes.endereco, clientes.cpf, clientes.user_id, users.nome, users.email, users.senha "
+                "FROM clientes INNER JOIN users ON clientes.user_id = users.id WHERE users.id = ?",
+                (user_id,)
+            )
+            row = cursor.fetchone()
+
+            if row:
+                return {
+                    "id": row["id"],
+                    "nome": row["nome"],
+                    "email": row["email"],
+                    "senha": row["senha"],
+                    "cpf": row["cpf"],
+                    "endereco": row["endereco"],
+                    "user_id": row["user_id"]
+                }
+            return None
+
     def listar(self):
         with conn() as c:
             cursor = c.cursor()

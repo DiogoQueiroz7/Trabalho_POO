@@ -1,4 +1,6 @@
 from controller.encomenda_controller import EncomendaController
+from repository.transportadora_repository import TransportadoraRepository
+from functions.utils.arquivo import ArquivoUtils
 
 class EncomendaView:
     def __init__(self, encomenda_controller):
@@ -13,13 +15,31 @@ class EncomendaView:
         descricao = input("Digite a descrição da encomenda: ")
         peso = float(input("Digite o peso da encomenda (kg): "))
         volume = float(input("Digite o volume da encomenda (m³): "))
-        cliente_id = int(input("Digite o ID do cliente: "))
+
+        print("Para adicionar uma encomenda, você precisa informar o numero da transportadora.")
+        transportadoras = TransportadoraRepository().get_all()
+
+        for transportadora in transportadoras:
+            print(f"ID: {transportadora['id']}, Razão Social: {transportadora['razao_social']}")
+            
+        print("Informe o ID da transportadora que você deseja utilizar:")
         transportadora_id = int(input("Digite o ID da transportadora: "))
 
         self.encomenda_controller.create_encomenda(
-            descricao, peso, volume, cliente_id, transportadora_id
+            descricao, peso, volume, transportadora_id
         )
         print("Encomenda adicionada com sucesso!")
+
+    def display_encomendas_cliente(self, user_id):
+        encomendas = self.encomenda_controller.get_all_encomendas_cliente(user_id)
+        cliente_encomendas = [e for e in encomendas]
+        
+        if not cliente_encomendas:
+            print("Nenhuma encomenda encontrada para este cliente.")
+            return
+        
+        for encomenda in cliente_encomendas:
+            print(f"Numero da encomenda: {encomenda['id']}, Peso: {encomenda['peso']}, Volume: {encomenda['volume']}, Transportadora: {encomenda['transportadora']}")
     
 def menu():
     print("\n--- MENU ---")

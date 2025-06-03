@@ -12,7 +12,7 @@ class SessionView:
         session = controller.login(email, password)
 
         if session:
-            return print(f"Login realizado com sucesso, seu dados de sessão são: {dict(session)}")
+            return print(f"Login realizado com sucesso.")
         
         return print("Email ou senha inválidos.")
     
