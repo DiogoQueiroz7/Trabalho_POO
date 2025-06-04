@@ -6,10 +6,10 @@ class Moto(Veiculo):
     '''
     def __init__(self, id, placa, cor, tipo_veiculo_id, cliente_id, adequacao_urbana, agilidade, cilindrada, capacidade_carga):
         super().__init__(id, placa, cor, tipo_veiculo_id, cliente_id)
-        self.adequacao_urbana = adequacao_urbana
-        self.agilidade = agilidade
-        self.cilindrada = cilindrada
-        self.capacidade_carga = capacidade_carga
+        self._adequacao_urbana = adequacao_urbana
+        self._agilidade = agilidade
+        self._cilindrada = cilindrada
+        self._capacidade_carga = capacidade_carga
 
     @property
     def adequacao_urbana(self):

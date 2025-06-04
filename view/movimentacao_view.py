@@ -7,11 +7,15 @@ class MovimentacaoView:
         self.controller = MovimentacaoController()
 
     def registrar(self):
-        veiculo_id = int(input("ID do Veículo: "))
+        try:
+            veiculo_id = int(input("ID do Veículo: "))
+            cliente_id = int(input("ID do Cliente: "))
+            transportadora_id = int(input("ID da Transportadora: "))
+        except ValueError:
+            print("insira apenas numeros")
+            return
         localizacao = input("Localização: ")
         status = input("Status: ")
-        cliente_id = int(input("ID do Cliente: "))
-        transportadora_id = int(input("ID da Transportadora: "))
         datahora = datetime.now()
         mov = Movimentacao(None, veiculo_id, datahora, localizacao, status, cliente_id, transportadora_id)
         self.controller.registrar(mov)
