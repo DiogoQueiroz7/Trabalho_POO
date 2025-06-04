@@ -1,27 +1,25 @@
 from controller.forma_pagamento_controller import FormaPagamentoController
 from controller.pagamento_controller import PagamentoController
+from controller.encomenda_controller import EncomendaController
 
 class PagamentoView:
     def __init__(self):
         self.fp_controller = FormaPagamentoController()
         self.p_controller = PagamentoController()
+        self.encomenda_controller = EncomendaController()
 
-    def e_inteiro(self, texto):
-
+    def e_inteiro(self, texto): 
         if not texto:
             return False
-        
         algarismos = "0123456789"
         for caractere in texto:
             if caractere not in algarismos:
                 return False
         return True
 
-    def e_float(self, texto):
-
+    def e_float(self, texto): 
         if not texto:
             return False
-
         algarismos = "0123456789"
         ponto_encontrado = False
         for caractere in texto:
@@ -72,7 +70,7 @@ class PagamentoView:
                 else:
                     print("Nenhuma forma de pagamento encontrada.")
             elif opcao == "3":
-                 self.criar_pagamento()
+                 self.criar_pagamento() 
             elif opcao == "4":
                 print("\nListando Todos os Pagamentos...")
                 pagamentos = self.p_controller.listar_todos_os_pagamentos()
@@ -109,35 +107,74 @@ class PagamentoView:
         else:
             print("Tipo inválido.")
 
-    def criar_pagamento(self):
+    def criar_pagamento(self): 
         print("\nCriando Novo Pagamento...")
+        print("\n--- Encomendas Disponíveis ---")
+        encomendas_disponiveis = self.encomenda_controller.get_all_encomendas()
+        if not encomendas_disponiveis:
+            print("Nenhuma encomenda disponível para pagamento. Crie uma encomenda primeiro.")
+            return
+        for enc in encomendas_disponiveis:
+            print(f"ID: {enc['id']}, Descrição: {enc['descricao']}")
+        print("\n--- Formas de Pagamento Disponíveis ---")
+        formas_pgto_disponiveis = self.fp_controller.listar_todas_formas_pagamento()
+        if not formas_pgto_disponiveis:
+            print("Nenhuma forma de pagamento cadastrada. Cadastre uma forma de pagamento primeiro.")
+            return
+        for fp in formas_pgto_disponiveis:
+            detalhes_fp = f"  ID: {fp['id']}, Tipo: {fp['tipo']}"
+            if fp['tipo'] == 'Pix':
+                chave = fp['chave_pix'] if fp['chave_pix'] else "Não informado"
+                detalhes_fp += f", Chave: {chave}"
+            elif fp['tipo'] == 'CartaoCredito':
+                final_cartao = fp['ultimos_digitos_cartao'] if fp['ultimos_digitos_cartao'] else "Não informado"
+                detalhes_fp += f", Final do Cartão: {final_cartao}"
+            elif fp['tipo'] == 'Boleto':
+                codigo = fp['codigo_barras_boleto']
+                display_codigo = "Não informado"
+                if codigo:
+                    display_codigo = codigo[:20] + '...' if len(codigo) > 20 else codigo
+                detalhes_fp += f", Cód. Barras: {display_codigo}"
+            print(detalhes_fp)
+        
         val_str = input("Valor (ex: 50.99): R$")
-        enc_id_str = input("ID da Encomenda: ")
+        enc_id_str = input("Digite o ID da Encomenda para este pagamento: ") 
         fp_id_str = input("ID da Forma de Pagamento: ")
 
-        valido = True
+        valido_input_basico = True
         if not self.e_inteiro(enc_id_str):
-            print("Erro: ID da encomenda deve ser um número inteiro.")
-            valido = False
+            print("Erro de Formato: ID da encomenda deve ser um número inteiro.")
+            valido_input_basico = False
         
         if not self.e_inteiro(fp_id_str):
-            print("Erro: ID da forma de pagamento deve ser um número inteiro.")
-            valido = False
+            print("Erro de Formato: ID da forma de pagamento deve ser um número inteiro.")
+            valido_input_basico = False
 
         if not self.e_float(val_str):
-            print("Erro: O valor do pagamento deve ser um número válido.")
-            valido = False
+            print("Erro de Formato: O valor do pagamento deve ser um número válido.")
+            valido_input_basico = False
+        
+        if not valido_input_basico:
+            return 
 
-        if valido:
-            val = float(val_str)
-            enc_id = int(enc_id_str)
-            fp_id = int(fp_id_str)
+        val = float(val_str)
+        enc_id = int(enc_id_str)
+        fp_id = int(fp_id_str)
 
-            if val <= 0 or enc_id <= 0 or fp_id <= 0:
-                print("Erro: IDs e valor devem ser números positivos.")
-            else:
-                self.p_controller.criar_pagamento(val, enc_id, fp_id)
-                print("Comando de criação de pagamento enviado.")
+        if val <= 0:
+            print("Erro: O valor do pagamento deve ser maior que zero.")
+            return
+        encomenda_existente = self.encomenda_controller.get_encomenda_by_id(enc_id)
+        if not encomenda_existente:
+            print(f"Erro: Encomenda com ID {enc_id} não encontrada. Por favor, verifique o ID e tente novamente.")
+            return
+        
+        forma_pagamento_existente = self.fp_controller.get_forma_pagamento_by_id(fp_id)
+        if not forma_pagamento_existente:
+            print(f"Erro: Forma de Pagamento com ID {fp_id} não encontrada. Por favor, verifique o ID e tente novamente.")
+            return
+        
+        self.p_controller.criar_pagamento(val, enc_id, fp_id)
 
 
 if __name__ == "__main__":
@@ -149,5 +186,5 @@ if __name__ == "__main__":
         print(f"ATENÇÃO: Erro ao inicializar o banco de dados: {e}")
         print("As tabelas podem não existir. Verifique o arquivo db.py e sua execução.")
 
-    view_teste = PagamentoView()
-    view_teste.menu_principal_pagamentos()
+    view = PagamentoView()
+    view.menu_principal_pagamentos() 

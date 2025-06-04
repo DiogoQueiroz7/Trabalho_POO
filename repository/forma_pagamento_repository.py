@@ -25,6 +25,13 @@ class FormaPagamentoRepository:
             ))
             banco.commit()
             return cursor.lastrowid
+        
+    def get_by_id(self, forma_pagamento_id):
+        with conn() as banco: 
+            cursor = banco.cursor()
+            cursor.execute("SELECT * FROM forma_pagamento WHERE id = ?", (forma_pagamento_id,))
+            row = cursor.fetchone() 
+            return row
 
     def listar(self):
         with conn() as banco:

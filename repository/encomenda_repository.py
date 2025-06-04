@@ -27,6 +27,12 @@ class EncomendaRepository:
         rows = cursor.fetchall()
         return rows
     
+    def get_by_id(self, encomenda_id):
+        cursor = self.db.cursor()
+        cursor.execute("SELECT * FROM encomendas WHERE id = ?", (encomenda_id,))
+        row = cursor.fetchone() 
+        return row
+    
     def get_all_cliente(self, user_id):
         cursor = self.db.cursor()
         cursor.execute("""

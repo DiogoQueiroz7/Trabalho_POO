@@ -9,7 +9,7 @@ class Pagamento:
                  forma_pagamento_id: int,
                  id_pagamento = None, 
                  data_pagamento = None, 
-                 status = None): 
+                 status = STATUS_CONFIRMADO): 
 
         self._id_pagamento = id_pagamento
         self._valor: float = 0.0 

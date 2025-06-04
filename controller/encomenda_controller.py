@@ -23,6 +23,9 @@ class EncomendaController:
             transportadora_id=transportadora_id
         )
         return self.encomenda_repository.create(encomenda)
+    
+    def get_encomenda_by_id(self, encomenda_id):
+        return self.encomenda_repository.get_by_id(encomenda_id)
 
     def get_all_encomendas(self):
         return self.encomenda_repository.get_all()

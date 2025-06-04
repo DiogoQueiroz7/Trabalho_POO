@@ -23,6 +23,9 @@ class FormaPagamentoController:
         )
         self.__repositorio_fp.salvar(novo_cartao)
         print(f"Forma de pagamento Cartão de Crédito cadastrada com sucesso!")
+
+    def get_forma_pagamento_by_id(self, forma_pagamento_id):
+        return self.__repositorio_fp.get_by_id(forma_pagamento_id)
         
     def criar_boleto(self, codigo_barras: str): 
         novo_boleto = Boleto(codigo_barras=codigo_barras) 
