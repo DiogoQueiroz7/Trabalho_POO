@@ -1,92 +1,67 @@
 from datetime import datetime
-class Pagamento:
 
+class Pagamento:
     STATUS_CONFIRMADO = "Confirmado"
 
-    def __init__(self,
-                 valor: float,
-                 encomenda_id: int,
-                 forma_pagamento_id: int,
-                 id_pagamento = None, 
-                 data_pagamento = None, 
-                 status = STATUS_CONFIRMADO): 
-
+    def __init__(self, valor, encomenda_id, forma_pagamento_id, id_pagamento=None, data_pagamento=None, status=STATUS_CONFIRMADO):
         self._id_pagamento = id_pagamento
-        self._valor: float = 0.0 
-        self.valor = valor 
-
-        if data_pagamento is None:
-            self._data_pagamento: datetime = datetime.now()
-        elif isinstance(data_pagamento, datetime):
-            self._data_pagamento: datetime = data_pagamento
-        else:
-            print(f"Alerta de Inicialização: data_pagamento inválida ('{data_pagamento}'). Usando data e hora atuais.")
-            self._data_pagamento: datetime = datetime.now()
-            
-        self._status_pagamento: str = status if status else Pagamento.STATUS_CONFIRMADO
-
-        if not isinstance(encomenda_id, int) or encomenda_id <= 0:
-            print(f"Alerta de Inicialização: ID da encomenda inválido ('{encomenda_id}'). Será usado o valor 0.")
-            self._encomenda_id: int = 0 
-        else:
-            self._encomenda_id: int = encomenda_id
-        if not isinstance(forma_pagamento_id, int) or forma_pagamento_id <= 0:
-            print(f"Alerta de Inicialização: ID da forma de pagamento inválido ('{forma_pagamento_id}'). Será usado o valor 0.")
-            self._forma_pagamento_id: int = 0
-        else:
-            self._forma_pagamento_id: int = forma_pagamento_id
+        self._valor = float(valor) if valor is not None else 0.0 
+        self._encomenda_id = encomenda_id
+        self._forma_pagamento_id = forma_pagamento_id
+        self._data_pagamento = data_pagamento if data_pagamento else datetime.now()
+        self._status_pagamento = status
 
     @property
-    def id_pagamento(self): 
+    def id_pagamento(self):
         return self._id_pagamento
 
     @id_pagamento.setter
-    def id_pagamento(self, novo_id: int): 
-        if isinstance(novo_id, int) and novo_id > 0:
-            self._id_pagamento = novo_id
-        else:
-            print(f"Erro ao definir ID do pagamento: ID inválido ('{novo_id}'). Deve ser um inteiro positivo.")
+    def id_pagamento(self, novo_id):
+        self._id_pagamento = novo_id
 
     @property
-    def valor(self) -> float:
+    def valor(self):
         return self._valor
 
     @valor.setter
-    def valor(self, novo_valor: float): 
-        if not isinstance(novo_valor, (int, float)): 
-            print(f"Erro ao definir valor: O valor ('{novo_valor}') deve ser numérico. Valor não alterado.")
-            return
-        if novo_valor < 0:
-            print(f"Erro ao definir valor: O valor ('{novo_valor}') não pode ser negativo. Valor não alterado.")
-            return 
-        self._valor = float(novo_valor) 
+    def valor(self, novo_valor):
+        self._valor = float(novo_valor) if novo_valor is not None else 0.0 
 
     @property
-    def data_pagamento(self) -> datetime: 
+    def data_pagamento(self):
         return self._data_pagamento
 
-    @property
-    def status_pagamento(self) -> str: 
-        return self._status_pagamento
+    @data_pagamento.setter
+    def data_pagamento(self, nova_data):
+        self._data_pagamento = nova_data if nova_data else datetime.now()
 
     @property
-    def encomenda_id(self) -> int: 
+    def status_pagamento(self):
+        return self._status_pagamento
+    
+    @status_pagamento.setter
+    def status_pagamento(self, novo_status):
+        self._status_pagamento = novo_status
+
+    @property
+    def encomenda_id(self):
         return self._encomenda_id
 
+    @encomenda_id.setter
+    def encomenda_id(self, nova_encomenda_id):
+        self._encomenda_id = nova_encomenda_id
+
     @property
-    def forma_pagamento_id(self) -> int:
+    def forma_pagamento_id(self):
         return self._forma_pagamento_id
 
     @forma_pagamento_id.setter
-    def forma_pagamento_id(self, nova_forma_id: int): 
-        if isinstance(nova_forma_id, int) and nova_forma_id > 0:
-            self._forma_pagamento_id = nova_forma_id
-        else:
-            print(f"Erro ao definir ID da forma de pagamento: ID inválido ('{nova_forma_id}'). Deve ser um inteiro positivo.")
+    def forma_pagamento_id(self, nova_forma_id):
+        self._forma_pagamento_id = nova_forma_id
 
-    def __str__(self) -> str: 
+    def __str__(self):
         data_formatada = self._data_pagamento.strftime('%Y-%m-%d %H:%M:%S') if self._data_pagamento else "N/A"
-        valor_formatado = f"R${self.valor:.2f}"
+        valor_formatado = f"R${self.valor:.2f}" if self.valor is not None else "R$0.00"
 
         return (f"Pagamento(ID: {self.id_pagamento}, Valor: {valor_formatado}, "
                 f"Data: {data_formatada}, Status: {self.status_pagamento}, "
